@@ -1,2 +1,9 @@
 # llm-fine-tuning
  llm fine tuning  from the  local model like  qwen and ollama
+
+Long-running agents pile up thousands of messages across sessions. Sending the whole history on every turn costs tokens, money and time, but cutting it off quietly throws away decisions. We built a memory layer that works with any model. It keeps decisions, constraints, numbers and code word for word. It shrinks general discussion into short summaries and drops duplicates and noise. Every choice is logged with a reason, and the original messages are never deleted. Memory is stored as versioned commits labelled by topic. Users can browse it, roll back to an earlier state, branch and merge, and trim or expand the context by hand.
+
+We tested a rule-based prototype on a synthetic 600-message conversation. It used 61% fewer tokens than the full history and recalled all 15 planted facts. Keeping only the last 60 messages recalled 1 of 15. That first result looks too good, because the facts contained the scorer's own keywords. On a second synthetic set, where the facts avoid those keywords, the same prototype recalled 10 of 15 (95% CI 42-85%) with 78% fewer tokens. The 5 missed facts were short replies that began with words like "Yes" or "Sure". One rule marked them as chatter and threw them out. The decision log traced each miss to the rule responsible. This shows that keyword rules overfit the benchmark, so we want learned importance scoring, LLM summarization and embedding-based retrieval.
+
+These results have limits. The "reader" is a stand-in that only checks whether the evidence survives in the context, and cost and latency are simulated. Next we will measure real tokens, cost, latency and answer quality as scored by an LLM judge, and compare against full-history and truncation baselines. We will validate the judge against human-labelled answers.
+
